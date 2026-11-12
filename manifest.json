@@ -1,0 +1,11 @@
+{
+  "name": "Continera Key Control",
+  "short_name": "Key Control",
+  "description": "Симулятор ключа DAF XG+ 530",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1117",
+  "theme_color": "#111820",
+  "lang": "uk"
+}
