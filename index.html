@@ -41,6 +41,8 @@
     .key-head{position:relative;flex:0 0 29px;width:29px;height:29px;border:5px solid #e1c276;border-radius:50%;background:#26313a}
     .key-head:after{content:"";position:absolute;inset:5px;border-radius:50%;background:#17212a}
     .key-shaft{height:7px;flex:0 0 44px;background:linear-gradient(180deg,#ffe5a0,#b48735 55%,#76531f);border-radius:2px}
+    .teeth,.key-shaft{transition:opacity .14s ease}
+    .key-visual.inserted .teeth,.key-visual.inserted .key-shaft{opacity:0;transition-delay:.46s}
     .teeth{width:14px;height:12px;border-left:4px solid #d6ad58;border-bottom:4px solid #d6ad58;transform:translateY(4px)}
     .key-caption{font-size:10px;color:#9eacb6;letter-spacing:.1em}
     .state{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:17px 20px;border-top:1px solid var(--line);background:#101820}
