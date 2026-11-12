@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111820">
+  <meta name="description" content="Continera Key Control — симулятор ключа DAF XG+ 530">
+  <link rel="manifest" href="manifest.json">
+  <title>Continera Key Control</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1117;--panel:#151e27;--panel2:#1b2732;--line:#2d3b48;--muted:#91a0ad;--white:#edf3f7;--accent:#e7bd58;--green:#79c99a}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#293846 0%,var(--bg) 60%);font-family:Inter,system-ui,Segoe UI,sans-serif;color:var(--white);padding:22px}
+    .app{max-width:980px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.brand{display:flex;align-items:center;gap:12px}.mark{width:42px;height:42px;border:1px solid #65727d;border-radius:12px;display:grid;place-items:center;font-weight:900;letter-spacing:-2px;background:linear-gradient(145deg,#263440,#101820)}h1{font-size:19px;letter-spacing:.08em;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:4px}.model{font-size:12px;color:#c5d0d8;border:1px solid var(--line);border-radius:999px;padding:8px 12px;white-space:nowrap}
+    .panel{background:linear-gradient(145deg,rgba(28,40,51,.96),rgba(17,25,33,.97));border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 18px 55px #0005}.panel-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.panel-head strong{font-size:13px;letter-spacing:.1em}.live{font-size:11px;color:var(--green);display:flex;align-items:center;gap:7px}.live:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px #79c99a}
+    .cockpit{min-height:390px;padding:35px 24px;display:grid;grid-template-columns:1fr 190px;gap:20px;align-items:center;background:linear-gradient(180deg,#18232d,#111920);position:relative}.wheel-area{display:grid;place-items:center;min-height:300px;position:relative}.wheel{width:min(290px,70vw);aspect-ratio:1;border-radius:50%;border:17px solid #080d11;box-shadow:inset 0 0 0 5px #34414b,0 12px 28px #0009;position:relative;background:radial-gradient(circle,#202c35 0 24%,#111920 25% 35%,transparent 36%)}.wheel:before,.wheel:after{content:"";position:absolute;background:linear-gradient(90deg,#111820,#46515a,#111820);border-radius:9px;top:42%;height:16%;width:44%;left:28%;transform-origin:center}.wheel:before{transform:rotate(90deg)}.wheel:after{transform:rotate(0)}.hub{position:absolute;inset:35%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#53616c,#17212a 65%);border:5px solid #0a1015;z-index:2;display:grid;place-items:center;font-size:10px;font-weight:900;letter-spacing:.12em;color:#dce4e9}.spoke{position:absolute;width:17%;height:34%;background:linear-gradient(90deg,#10171d,#48545e,#10171d);left:41.5%;top:4%;border-radius:8px;transform-origin:50% 135%;z-index:1}
+    .lock-zone{display:flex;flex-direction:column;align-items:center;gap:16px}.lock-label{font-size:11px;letter-spacing:.12em;color:var(--muted);text-align:center}.lock-panel{width:118px;height:160px;border:1px solid #3b4a56;border-radius:15px;background:linear-gradient(135deg,#293742,#10171d);display:grid;place-items:center;box-shadow:inset 0 1px #ffffff14,0 12px 24px #0006;position:relative}.lock-panel:before{content:"";position:absolute;inset:9px;border:1px solid #ffffff0b;border-radius:10px}.cylinder{width:47px;height:47px;border-radius:50%;border:5px solid #65727b;background:radial-gradient(circle,#080d11 0 28%,#c2cbd0 30% 36%,#1a242c 39%);box-shadow:0 0 0 3px #111920}.key-slot{position:absolute;width:5px;height:19px;background:#080d11;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:3px}.key-visual{height:45px;display:flex;align-items:center;gap:0;filter:drop-shadow(0 5px 5px #0008);transition:transform .45s ease,opacity .3s}.key-head{width:28px;height:28px;border:5px solid #c7a451;border-radius:50%;position:relative}.key-head:after{content:"";position:absolute;width:8px;height:8px;background:#19232b;border-radius:50%;inset:5px}.key-shaft{height:7px;width:48px;background:linear-gradient(#f4d889,#a77b2b);border-radius:2px}.teeth{width:13px;height:12px;border-left:4px solid #c7a451;border-bottom:4px solid #c7a451;transform:translateY(4px)}
+    .key-visual.inserted{transform:translateX(-28px) rotate(0deg);opacity:.0}.state{padding:18px 20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.state-label{font-size:11px;color:var(--muted);letter-spacing:.12em}.state-value{font-size:14px;font-weight:750;margin-top:5px}.state-value:before{content:"";display:inline-block;width:8px;height:8px;background:var(--accent);border-radius:50%;margin-right:9px}.state-value.in:before{background:var(--green);box-shadow:0 0 9px #79c99a}
+    .controls{display:flex;gap:10px;padding:18px 20px 20px}.btn{flex:1;border:1px solid #566675;border-radius:12px;padding:14px 12px;background:linear-gradient(180deg,#344451,#25323d);color:#fff;font-weight:750;letter-spacing:.04em;cursor:pointer;transition:.15s}.btn.primary{background:linear-gradient(180deg,#e4c16f,#b68a35);border-color:#e9cd8c;color:#1a1b1b}.btn:disabled{opacity:.38;cursor:not-allowed}.btn:not(:disabled):active{transform:scale(.985)}.note{font-size:12px;line-height:1.6;color:var(--muted);padding:0 20px 20px}.footer{text-align:center;color:#667784;font-size:11px;margin:16px}
+    @media(max-width:650px){body{padding:14px}.top{align-items:flex-start}.model{font-size:10px}.cockpit{grid-template-columns:1fr;gap:22px;padding:22px 12px}.wheel-area{min-height:255px}.wheel{width:225px}.lock-panel{width:100px;height:120px}.lock-zone{gap:9px}.state{align-items:flex-start;flex-direction:column}.controls{flex-direction:column}.btn{width:100%}}
+    @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <header class="top">
+    <div class="brand"><div class="mark">C.</div><div><h1>CONTINERA KEY CONTROL</h1><div class="sub">СИМУЛЯТОР ЕЛЕМЕНТІВ КАБІНИ</div></div></div>
+    <div class="model">DAF XG+ 530</div>
+  </header>
+  <section class="panel" aria-label="Керування ключем">
+    <div class="panel-head"><strong>ЗОНА КЕРУВАННЯ</strong><span class="live">СИСТЕМА АКТИВНА</span></div>
+    <div class="cockpit">
+      <div class="wheel-area">
+        <div class="wheel" aria-label="Кермо"><div class="spoke"></div><div class="hub">DAF</div></div>
+      </div>
+      <div class="lock-zone">
+        <div class="lock-label">ЗАМОК КЛЮЧА · ПРАВОРУЧ ВІД КЕРМА</div>
+        <div class="lock-panel">
+          <div class="cylinder"><div class="key-slot"></div></div>
+        </div>
+        <div class="key-visual" id="keyVisual" aria-label="Ключ">
+          <div class="key-head"></div><div class="key-shaft"></div><div class="teeth"></div>
+        </div>
+      </div>
+    </div>
+    <div class="state">
+      <div><div class="state-label">ПОТОЧНИЙ СТАН</div><div class="state-value" id="stateText">КЛЮЧ ВИТЯГНУТИЙ</div></div>
+      <div class="state-label" id="stateHint">Ключ можна вставити в замок</div>
+    </div>
+    <div class="controls">
+      <button class="btn primary" id="insertBtn" type="button">ВСТАВИТИ КЛЮЧ</button>
+      <button class="btn" id="removeBtn" type="button">ВИТЯГНУТИ КЛЮЧ</button>
+    </div>
+    <div class="note">Цей симулятор відтворює лише механічну дію вставлення та витягування ключа. Запуск двигуна й перемикання запалювання тут не моделюються.</div>
+  </section>
+  <div class="footer">CONTINERA · KEY CONTROL · LOCAL MODE</div>
+</main>
+<script>
+(() => {
+  const STORAGE_KEY = "continera-key-control-state";
+  const insertBtn = document.getElementById("insertBtn");
+  const removeBtn = document.getElementById("removeBtn");
+  const stateText = document.getElementById("stateText");
+  const stateHint = document.getElementById("stateHint");
+  const keyVisual = document.getElementById("keyVisual");
+  let inserted = localStorage.getItem(STORAGE_KEY) === "inserted";
+
+  function render() {
+    stateText.textContent = inserted ? "КЛЮЧ ВСТАВЛЕНИЙ" : "КЛЮЧ ВИТЯГНУТИЙ";
+    stateText.classList.toggle("in", inserted);
+    stateHint.textContent = inserted ? "Ключ знаходиться в замку" : "Ключ можна вставити в замок";
+    insertBtn.disabled = inserted;
+    removeBtn.disabled = !inserted;
+    keyVisual.classList.toggle("inserted", inserted);
+    keyVisual.setAttribute("aria-label", inserted ? "Ключ вставлений" : "Ключ витягнутий");
+  }
+
+  insertBtn.addEventListener("click", () => {
+    if (inserted) return;
+    inserted = true;
+    localStorage.setItem(STORAGE_KEY, "inserted");
+    render();
+  });
+
+  removeBtn.addEventListener("click", () => {
+    if (!inserted) return;
+    inserted = false;
+    localStorage.setItem(STORAGE_KEY, "removed");
+    render();
+  });
+
+  render();
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+  }
+})();
+</script>
+</body>
+</html>
