@@ -1,4 +1,4 @@
-const CACHE_NAME = "continera-key-control-v1";
+const CACHE_NAME = "continera-key-control-v2";
 const APP_FILES = ["./", "./index.html", "./manifest.json"];
 
 self.addEventListener("install", event => {
