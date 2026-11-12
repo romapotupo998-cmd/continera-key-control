@@ -1,6 +1,6 @@
 # Continera Key Control
 
-A lightweight PWA-style key control simulator for the **DAF XG+ 530**.
+A lightweight PWA-style key control simulator.
 
 ## Current functionality
 
